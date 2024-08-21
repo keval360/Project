@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+
+    
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        .container {
+            margin-top: 90px;
+            padding: 40px;
+        }
+
+        
+
+    
+    </style>
+    
+</head>
+<body>
+{%include 'navbar.html'%}
+<div class="container">
+
+    <form action="reg" method="POST">
+        {%csrf_token%}
+        <table border="1" cellpadding="7">
+            {{form.as_table}}
+            <tr>
+                <td><input type="submit" value="Save"></td>
+                <td><input type="reset" value="Reset"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

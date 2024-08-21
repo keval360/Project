@@ -1,0 +1,61 @@
+
+{% include 'navbar.html'%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Catalog</title>
+    <style>
+        /* CSS styles for product list and items */
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            list-style: none;
+            padding:10;
+        }
+        
+        .product-item {
+            flex: 4;
+            max-width: 30%;
+            margin: 10px;
+            border: 1px solid #ccc;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        /* Style the "Buy Now" button */
+        .buy-now-button {
+            display: block;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Catalog</h1>
+    <form method="GET" action="product">
+        <input type="text" name="q" placeholder="Search products..." value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+     
+    <ul class="product-list">
+        {% for i in products %}
+            <li class="product-item">
+                <a href="">
+                    <img src="{{ i.image.url }}" alt="{{ i.product_name }}" width="250" height="200"> <!-- Adjust width and height here -->
+                </a>
+                <h2>{{ i.product_name }}</h2>
+                <p>{{ i.product_discription }}</p>
+                <p>Price: Rs.{{ i.product_price }}</p>
+                <a href="addtocart/{{i.id}}" class="buy-now-button">Add to cart</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

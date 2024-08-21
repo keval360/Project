@@ -1,0 +1,115 @@
+
+{% include 'navbar.html'%}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-table th, .cart-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .cart-table th {
+        background-color: #f2f2f2;
+    }
+
+    .cart-table tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .cart-table input[type="number"] {
+        width: 50px;
+        padding: 5px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .cart-table a {
+        color: #d9534f;
+        text-decoration: none;
+    }
+
+    .cart-table a:hover {
+        text-decoration: underline;
+    }
+
+    .cart-table .subtotal {
+        font-weight: bold;
+    }
+
+    .cart-table .place-order-btn {
+        padding: 8px 16px;
+        background-color: #5cb85c;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .cart-table .place-order-btn:hover {
+        background-color: #4cae4c;
+    }
+</style>
+
+<h1>Cart List</h1>
+<hr>
+<table class="cart-table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Product Price</th>
+            <th>Quantity</th>
+            <th>User Name</th>
+            <th>Sub-total</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cl %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.product.product_name }}</td>
+            <td>Rs.{{ item.product.product_price }}</td>
+            <td><input type="number" name="qty" id="qty_{{ item.id }}" value="{{ item.quantity }}" data-price="{{ item.product.product_price }}" onchange="calculateSubtotal('{{ item.id }}')"></td>
+            <td>{{ item.user.username }}</td>
+            <td id="subtotal_{{ item.id }}">Rs.{{ item.product.product_price }}</td>
+            <td><a href="delete/{{item.id}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="5"></td>
+            <td class="subtotal">Sub-total: Rs.<span id="totalAmount">{{total_price}}</span></td>
+            
+        </tr>
+    </tbody>
+</table>
+<form id="paymentForm" action="success" method="POST">
+    {%csrf_token%}
+<script
+    src="https://checkout.razorpay.com/v1/checkout.js"
+    data-key="rzp_test_2BxfpkwhDFo49m" 
+    data-amount = "{{final_price}}"
+    data-order_id="{{order_id}}"
+    data-buttontext="Checkout"
+    data-name="{{products.prod_name}}"
+    data-description="{{products.prod_items}}"
+    data-prefill.name="Gaurav Kumar"
+    data-prefill.email="gaurav.kumar@example.com"
+    data-theme.color="#F37254"
+></script>
+<input type="hidden" custom="Hidden Element" name="hidden" style="background-color: blue;">
+</form>
